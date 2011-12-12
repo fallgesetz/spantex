@@ -38,8 +38,8 @@ class LaTeXToken(AbstractToken):
         tex_file.close()
 
         os.chdir(compilation_dir)
-        # TODO: remove, debugging
-        print subprocess.call(['latex', 't.tex'])
+
+        subprocess.call(['latex', 't.tex'])
         subprocess.call(['dvips', '-E', 't.dvi', '-o', 't.ps'])
         subprocess.call(['convert', 't.ps', 't.png'])
 
@@ -51,6 +51,10 @@ class LaTeXToken(AbstractToken):
 
         return "<img src='data:image/png;base64,%s' />" % encoded_png_data
 
+class LaTeXDisplayToken(LaTeXToken):
+    def compile(self):
+        png = super(LaTeXDisplayToken, self).compile()
+        return "<div class='display_math'>%s</div>" % png
 
 class ItalicsToken(AbstractToken):
     def compile(self):
@@ -62,7 +66,7 @@ TOKEN_TYPES = {0: LaTeXToken,
                2: Token}
 
 tokenizer_regex = r"""
-(\$.*?\$) | 
+(\$[^\\\$]*?\$) |
 (_\S+_) |
 (\S+)
 """
@@ -82,8 +86,3 @@ def tokenize(text):
         tokens.append(tuple_to_token(x))
 
     return tokens
-
-# TODO: move to unittest and remove
-if __name__ == '__main__':
-    foo = LaTeXToken('$\epsilon$')
-    print foo.compile()

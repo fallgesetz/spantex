@@ -1,14 +1,15 @@
 """
 HTML templates in heredoc form.
 """
+from string import Template
 
-basic = """
+basic = Template("""
 <html>
     <head>
-        <title>%(title)</title>
+        <title>$title</title>
     </head>
     <body>
-    %{body}
+    $body
     </body>
 </html>
-"""
+""")

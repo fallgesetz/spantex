@@ -13,6 +13,12 @@ class TestTokenizer(unittest.TestCase):
         tokens = tokenize(text)
         assert tokens[0].content == '$\epsilon$'
 
+    def test_escapes(self):
+        text = '$\$$'
+        tokens = tokenize(text)
+        for token in tokens:
+            print token.content
+
 class TestLaTeXTokens(unittest.TestCase):
     def test_compile(self):
         foo = LaTeXToken('$\epsilon$')
