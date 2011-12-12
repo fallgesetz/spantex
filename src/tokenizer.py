@@ -63,8 +63,8 @@ TOKEN_TYPES = {0: LaTeXToken,
 
 tokenizer_regex = r"""
 (\$.*?\$) | 
-(_\w+_) |   
-(\w+)      
+(_\S+_) |
+(\S+)
 """
 
 tokenizer_matcher = re.compile(tokenizer_regex, re.VERBOSE)
@@ -87,11 +87,3 @@ def tokenize(text):
 if __name__ == '__main__':
     foo = LaTeXToken('$\epsilon$')
     print foo.compile()
-
-
-
-
-
-
-
-

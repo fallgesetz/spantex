@@ -3,6 +3,8 @@ import sys
 import argparse
 
 import html_templates
+import parser
+import tokenizer
 
 
 
@@ -16,3 +18,7 @@ def main():
 
 if __name__ == '__main__':
     main()
+    tokens = tokenizer.tokenize('hi how are you. $\epsilon$')
+    print tokens
+    print parser.parse(tokens)
+
