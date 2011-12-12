@@ -3,7 +3,6 @@ import os
 import re
 import tempfile
 import subprocess # got to call latex
-import shlex
 
 class AbstractToken(object):
     def __init__(self, content):
@@ -13,6 +12,7 @@ class AbstractToken(object):
         return self.content
 
 class Token(AbstractToken):
+    # TODO: do things like separate out paragraphs
     pass
 
 class LaTeXToken(AbstractToken):
@@ -38,6 +38,7 @@ class LaTeXToken(AbstractToken):
         tex_file.close()
 
         os.chdir(compilation_dir)
+        # TODO: remove, debugging
         print subprocess.call(['latex', 't.tex'])
         subprocess.call(['dvips', '-E', 't.dvi', '-o', 't.ps'])
         subprocess.call(['convert', 't.ps', 't.png'])
@@ -52,7 +53,9 @@ class LaTeXToken(AbstractToken):
 
 
 class ItalicsToken(AbstractToken):
-    pass
+    def compile(self):
+        return '<i>%s</i>' % self.content[1:-1]
+
 
 TOKEN_TYPES = {0: LaTeXToken, 
                1: ItalicsToken,
@@ -80,6 +83,7 @@ def tokenize(text):
 
     return tokens
 
+# TODO: move to unittest and remove
 if __name__ == '__main__':
     foo = LaTeXToken('$\epsilon$')
     print foo.compile()
