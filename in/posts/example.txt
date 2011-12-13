@@ -1,0 +1,5 @@
+<h1>Markov's Inequality</h1>
+
+$P(X > a) \le E[X]/a$
+
+Markov's inequality is the simplest tool we have in the study of concentration bounds...
