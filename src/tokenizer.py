@@ -60,15 +60,20 @@ class ItalicsToken(AbstractToken):
     def compile(self):
         return '<i>%s</i>' % self.content[1:-1]
 
+class Spacing(AbstractToken):
+    def compile(self):
+        return '<br/>' * len(self.content)
 
 TOKEN_TYPES = {0: LaTeXToken, 
                1: ItalicsToken,
-               2: Token}
+               2: Token,
+               3: Spacing}
 
 tokenizer_regex = r"""
 (\$[^\\\$]*?\$) |
 (_\S+_) |
-(\S+)
+(\S+) |
+(\s+)
 """
 
 tokenizer_matcher = re.compile(tokenizer_regex, re.VERBOSE)

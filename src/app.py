@@ -27,11 +27,10 @@ def main():
 
     posts = os.path.join(os.path.dirname(args.input), 'posts/')
     for post in os.listdir(posts):
-        print 'hi'
         if any([post.endswith(x) for x in args.extension]):
             post_path = os.path.join(os.path.dirname(posts), post)
-            print post_path
             parsed_post = parser.parse(tokenizer.tokenize(open(post_path, 'r').read()))
+            print parsed_post
             parsed_page = main_template_html.safe_substitute(title=post, body=parsed_post)
             make_html_output(args.output, post, parsed_page)
 

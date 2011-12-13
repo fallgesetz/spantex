@@ -1,5 +1,5 @@
 import unittest
-from src.tokenizer import tokenize, Token, LaTeXToken, ItalicsToken
+from src.tokenizer import tokenize, Token, LaTeXToken, ItalicsToken, Spacing
 
 class TestTokenizer(unittest.TestCase):
     def test_just_text(self):
@@ -16,8 +16,13 @@ class TestTokenizer(unittest.TestCase):
     def test_escapes(self):
         text = '$\$$'
         tokens = tokenize(text)
-        for token in tokens:
-            print token.content
+        assert tokens[0].content == '$\$$'
+
+    def test_new_lines(self):
+        text = "\n\n"
+        tokens = tokenize(text)
+        assert len(tokens) == 1
+        assert isinstance(tokens[0], Spacing)
 
 class TestLaTeXTokens(unittest.TestCase):
     def test_compile(self):
