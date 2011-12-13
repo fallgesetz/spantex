@@ -21,11 +21,11 @@ class LaTeXToken(AbstractToken):
     """
     def compile(self):
         latex_to_compile = r"""
-\documentclass[12pt]{amsart}
+\documentclass[20pt]{article}
 \usepackage{amsmath}
 \usepackage{amssymb}
-\pagestyle{empty}
 \begin{document}
+\pagestyle{empty}
 %s
 \end{document}
 """ % self.content
@@ -37,17 +37,20 @@ class LaTeXToken(AbstractToken):
         tex_file.write(latex_to_compile)
         tex_file.close()
 
+        current_dir = os.getcwd()
         os.chdir(compilation_dir)
 
         subprocess.call(['latex', 't.tex'])
         subprocess.call(['dvips', '-E', 't.dvi', '-o', 't.ps'])
-        subprocess.call(['convert', 't.ps', 't.png'])
+        subprocess.call(['convert', '-density', '200x200', 't.ps', 't.png'])
 
         png_path = "%s/t.png" % compilation_dir
 
         png_file = open(png_path, 'rb')
         png_data = png_file.read()
         encoded_png_data = base64.b64encode(png_data)
+
+        os.chdir(current_dir)
 
         return "<img src='data:image/png;base64,%s' />" % encoded_png_data
 
@@ -60,20 +63,20 @@ class ItalicsToken(AbstractToken):
     def compile(self):
         return '<i>%s</i>' % self.content[1:-1]
 
-class Spacing(AbstractToken):
-    def compile(self):
-        return '<br/>' * len(self.content)
+class LineBreak(AbstractToken):
+    pass
 
 TOKEN_TYPES = {0: LaTeXToken, 
                1: ItalicsToken,
                2: Token,
-               3: Spacing}
+               3: LineBreak}
 
+# TODO deal with escaped \$ in latex
 tokenizer_regex = r"""
-(\$[^\\\$]*?\$) |
+(\$.*?(?<!\\)\$) |
 (_\S+_) |
 (\S+) |
-(\s+)
+(\n{1,})
 """
 
 tokenizer_matcher = re.compile(tokenizer_regex, re.VERBOSE)
@@ -88,6 +91,7 @@ def tokenize(text):
     token_list = tokenizer_matcher.findall(text)
     tokens = []
     for x in token_list:
+        print x
         tokens.append(tuple_to_token(x))
 
     return tokens

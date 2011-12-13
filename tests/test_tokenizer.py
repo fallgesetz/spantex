@@ -1,5 +1,5 @@
 import unittest
-from src.tokenizer import tokenize, Token, LaTeXToken, ItalicsToken, Spacing
+from src.tokenizer import tokenize, Token, LaTeXToken, ItalicsToken, LineBreak
 
 class TestTokenizer(unittest.TestCase):
     def test_just_text(self):
