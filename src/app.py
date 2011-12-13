@@ -8,9 +8,6 @@ import tokenizer
 
 def make_html_output(output_dir, title, page):
     path = os.path.join(os.path.dirname('%s/%s' % (os.getcwd(), output_dir)), '%s.html' % title)
-    print path
-    print os.path.dirname(output_dir)
-    print os.getcwd()
     with open(path, 'w') as fh:
         fh.write(page)
 
@@ -34,7 +31,6 @@ def main():
             post_path = os.path.join(os.path.dirname(posts), post)
             tokens = tokenizer.tokenize(open(post_path, 'r').read())
             for x in tokens:
-                print 'new token'
                 print x.content
             parsed_post = parser.parse(tokens)
             parsed_page = main_template_html.safe_substitute(title=post, body=parsed_post)

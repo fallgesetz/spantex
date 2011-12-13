@@ -66,14 +66,16 @@ class ItalicsToken(AbstractToken):
 class LineBreak(AbstractToken):
     pass
 
-TOKEN_TYPES = {0: LaTeXToken, 
-               1: ItalicsToken,
-               2: Token,
-               3: LineBreak}
+TOKEN_TYPES = {0: LaTeXDisplayToken,
+               1: LaTeXToken,
+               2: ItalicsToken,
+               3: Token,
+               4: LineBreak}
 
 # TODO deal with escaped \$ in latex
 tokenizer_regex = r"""
-(\$.*?(?<!\\)\$) |
+(\$\$.+?(?<!\\)\$\$) |
+(\$.+?(?<!\\)\$) |
 (_\S+_) |
 (\S+) |
 (\n{1,})
@@ -91,7 +93,6 @@ def tokenize(text):
     token_list = tokenizer_matcher.findall(text)
     tokens = []
     for x in token_list:
-        print x
         tokens.append(tuple_to_token(x))
 
     return tokens

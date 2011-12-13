@@ -1,0 +1,9 @@
+1. make the latex images the same size as the fonts
+2. parse basic things like \begin{proof} \end{proof}
+3. add a basic web server to serve the static pages
+4. switch to a config object rather than command line options.
+
+LONG TERM:
+3. add markdown parsing?
+4. refactor current tokenization scheme?
+
