@@ -1,1 +1,20 @@
-generate static web pages with latex support
+===========
+# Spantex
+===========
+
+Spantex generates static web pages with native LaTeX support. Currently functionality is very limited.
+
+- Supported LaTeX tags: $, $$. Hopefully \[ soon
+
+- Supported HTML tags: All.
+
+- Supported Markdown tags: not yet!
+
+# FAQ #
+
+*chirp*
+
+# Source code diving #
+Everything interesting currently happens in src/tokenizer.py and src/parser.py
+
+
