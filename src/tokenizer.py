@@ -72,7 +72,6 @@ TOKEN_TYPES = {0: LaTeXDisplayToken,
                3: Token,
                4: LineBreak}
 
-# TODO deal with escaped \$ in latex
 tokenizer_regex = r"""
 (\$\$.+?(?<!\\)\$\$) |
 (\$.+?(?<!\\)\$) |
